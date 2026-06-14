@@ -4,35 +4,223 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-    <title>Document</title>
+    <title>Início LogiTrack Dashboard</title>
 </head>
 <body>
 
     <header>
 
-        <h1>
-            Nome do Dashboard |Se tiver|
-        </h1>
+        <div class="logo">
+            <h1>
+                <spam>LogiTrack</spam> Dashboard
+            </h1>
+        </div>
 
     </header>
     
-    <!-- Conteúdo do dashboard aqui -->
+    <div class="kpis">
+
+        <div class="card">
+            <h2>
+                10
+            </h2>
+            <p>
+                Total de entrgas
+            </p>
+        </div>
+
+        <div class="card" >
+            <h2>
+                7
+            </h2>
+            <p>
+                Entregas Atrasadas
+            </p>
+        </div>
+        
+        <div class="card">
+            <h2>
+                70%
+            </h2>
+            <p>
+                Taxa de Atrasos
+            </p>
+        </div>
+        
+        <div class="card">
+            <h2>
+                ViaCargo
+            </h2>
+            <p>
+                Mais Atrasos
+            </p>
+        </div>
+    
+    </div>
+
+    <div class="container">
+        
+        <div class="grafico1">
+            <h3>
+                Ranking de Atrasos por Transportadora
+            </h3>
+            <div class="chart">
+                <canvas id="barVerticalchart" width="300" height="300"></canvas>
+            </div>
+        
+        </div>
+
+        <div class="grafico2">
+            <h3>
+                Análise Regional de Entregas
+            </h3>
+            <div class="chart2">
+                <canvas id="doughnutchart" width="300" height="300"></canvas>
+            </div>
+        </div>
+
+        <div class="grafico3">
+            <h3>
+                Priorização de Entregas em Atraso
+            </h3>
+            <div class="chart3">
+                <canvas id="horizontalchart" width="500" heigth="300"></canvas>
+            </div>
+        </div>
+
+    </div>
+
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="chart1.js"></script>
+    <script src="chart2.js"></script>
+    <script src="chart3.js"></script>
+
+    <div class="table">
+        <h3>
+            <span>Monitoramento de Entregas Críticas e Atrasadas</span>
+        </h3>
 
 
+    <table>
+
+    <thead>
+        
+        <tr>
+            <th>ID</th>
+            <th>Transportadora</th>
+            <th>Região</th>
+            <th>Atraso</th>
+            <th>Prioridade</th>
+        </tr>
+
+    </thead>
+    <tbody>
+
+        <tr>
+            <td>306</td>
+            <td>FlashLog</td>
+            <td>Sul</td>
+            <td>7 dias</td>
+            <td>🔴 Alta</td>
+        </tr>
+
+        <tr>
+            <td>303</td>
+            <td>FlashLog</td>
+            <td>Nordeste</td>
+            <td>5 dias</td>
+            <td>🟠 Média-Alta </td>
+        </tr>
+
+        <tr>
+            <td>301</td>
+            <td>RotaMax</td>
+            <td>Sudeste</td>
+            <td>4 dias</td>
+            <td>🟠 Média-Alta </td>
+        </tr>
+
+        <tr>
+            <td>305</td>
+            <td>ViaCargo</td>
+            <td>Centro-Oeste</td>
+            <td>4 dias</td>
+            <td>🟠 Média-Alta </td>
+        </tr>
+
+        <tr>
+            <td>310</td>
+            <td>ViaCargo</td>
+            <td>Nordeste</td>
+            <td>4 dias</td>
+            <td>🟠 Média-Alta </td>
+        </tr>
+
+        <tr>
+            <td>307</td>
+            <td>RotaMax</td>
+            <td>Sul</td>
+            <td>3 dias</td>
+            <td>🟡 Média </td>
+        </tr>
+
+        <tr>
+            <td>308</td>
+            <td>ViaCargo</td>
+            <td>Sudeste</td>
+            <td>1 dias</td>
+            <td>🟡 Média </td>
+        </tr>
+
+        <tr>
+            <td>302</td>
+            <td>ViaCargo</td>
+            <td>Sul</td>
+            <td>0 dias</td>
+            <td>🟢 Nenhuma </td>
+        </tr>
+
+        <tr>
+            <td>304</td>
+            <td>RotaMax</td>
+            <td>Norte</td>
+            <td>0 dias</td>
+            <td>🟢 Nenhuma </td>
+        </tr>
+
+        <tr>
+            <td>308</td>
+            <td>FlashLog</td>
+            <td>Norte</td>
+            <td>0 dias</td>
+            <td>🟢 Nenhuma </td>
+        </tr>
+
+    
+    </tbody>
+    
+    </table>
+    
+    </div>
+    
     <footer>
 
         <h3>
-            Nome do Dashboard |Se tiver|
+            <span>LogiTrack</span> Dashboard
         </h3>
 
         <p>
-            Desenvolvido por: Murilo Ferreira Stresser, Caio Lima Viana, André Fernandes dos Santos e Jennifer Lorraine Rita Brizola dos Santos
+            Desenvolvido por: <span>Murilo Ferreira Stresser</span>, <span>Caio Lima Viana</span>, <span>André Fernandes dos Santos</span> e <span>Jennifer Lorraine Rita Brizola dos Santos</span>.
         </p>
         
         <p>
-            &copy; 2026 Nome do Dashboard. Todos os direitos reservados.
+            &copy; 2026 <span>LogiTrack</span> Dashboard. Todos os direitos reservados.
         </p>
 
     </footer>
+
 </body>
+
 </html>
