@@ -33,8 +33,7 @@ fetch("http://localhost:3000/api/prioridade")
             }]
         },
         options: {
-            indexAxis: "y",
-            responsive: true
+            indexAxis: "y"
         }
     });
 });

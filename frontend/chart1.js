@@ -24,6 +24,13 @@ fetch("http://localhost:3000/api/atrasos-transportadora")
                 ],
                 borderWidth: 2
             }]
+        },
+        options: {
+            plugins: {
+                legend: {
+                    display: false
+                }
+            }
         }
     });
 });

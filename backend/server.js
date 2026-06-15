@@ -1,137 +1,175 @@
 const express = require("express");
-const mysql = require("mysql2");
 const cors = require("cors");
-const dotenv = require("dotenv/config");
 
 const app = express();
 
 app.use(cors());
 
-const db = mysql.createConnection({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME,
-    port: process.env.DB_PORT
-});
-
-db.connect((err) => {
-    if (err) {
-        console.error("Erro ao conectar:", err);
-        return;
-    }
-
-    console.log("MySQL conectado!");
-});
-
-
-// =====================================
-// GRÁFICO 1
-// =====================================
+const dashboard = [
+    { id_entrega: 301, transportadora: "RotaMax", regiao: "Sudeste", prazo_dias: 3, dias_reais: 7 },
+    { id_entrega: 302, transportadora: "ViaCargo", regiao: "Sul", prazo_dias: 5, dias_reais: 5 },
+    { id_entrega: 303, transportadora: "FlashLog", regiao: "Nordeste", prazo_dias: 4, dias_reais: 9 },
+    { id_entrega: 304, transportadora: "RotaMax", regiao: "Norte", prazo_dias: 6, dias_reais: 4 },
+    { id_entrega: 305, transportadora: "ViaCargo", regiao: "Centro-Oeste", prazo_dias: 2, dias_reais: 6 },
+    { id_entrega: 306, transportadora: "FlashLog", regiao: "Sul", prazo_dias: 5, dias_reais: 12 },
+    { id_entrega: 307, transportadora: "RotaMax", regiao: "Sul", prazo_dias: 6, dias_reais: 9 },
+    { id_entrega: 308, transportadora: "ViaCargo", regiao: "Sudeste", prazo_dias: 3, dias_reais: 4 },
+    { id_entrega: 309, transportadora: "FlashLog", regiao: "Norte", prazo_dias: 5, dias_reais: 5 },
+    { id_entrega: 310, transportadora: "ViaCargo", regiao: "Nordeste", prazo_dias: 4, dias_reais: 8 }
+];
 
 app.get("/api/atrasos-transportadora", (req, res) => {
 
-    const sql = `
-        SELECT
-            transportadora,
-            COUNT(*) AS atrasos
-        FROM dashboard
-        WHERE dias_reais > prazo_dias
-        GROUP BY transportadora
-    `;
+    const resultado = {};
 
-    db.query(sql, (err, result) => {
+    dashboard.forEach(item => {
 
-        if (err) {
-            return res.status(500).json(err);
+        if (item.dias_reais > item.prazo_dias) {
+
+            resultado[item.transportadora] =
+                (resultado[item.transportadora] || 0) + 1;
         }
-
-        res.json(result);
     });
+
+    res.json(
+        Object.keys(resultado).map(nome => ({
+            transportadora: nome,
+            atrasos: resultado[nome]
+        }))
+    );
 });
-
-
-// =====================================
-// GRÁFICO 2
-// =====================================
 
 app.get("/api/regioes", (req, res) => {
 
-    const sql = `
-        SELECT
-            regiao,
-            COUNT(*) AS total
-        FROM dashboard
-        WHERE dias_reais > prazo_dias
-        GROUP BY regiao
-    `;
+    const resultado = {};
 
-    db.query(sql, (err, result) => {
+    dashboard.forEach(item => {
 
-        if (err) {
-            return res.status(500).json(err);
+        if (item.dias_reais > item.prazo_dias) {
+
+            resultado[item.regiao] =
+                (resultado[item.regiao] || 0) + 1;
         }
-
-        res.json(result);
     });
+
+    res.json(
+        Object.keys(resultado).map(nome => ({
+            regiao: nome,
+            total: resultado[nome]
+        }))
+    );
 });
-
-
-// =====================================
-// GRÁFICO 3
-// =====================================
 
 app.get("/api/prioridade", (req, res) => {
 
-    const sql = `
-        SELECT
-            id_entrega,
-            (dias_reais - prazo_dias) AS atraso
-        FROM dashboard
-        WHERE dias_reais > prazo_dias
-        ORDER BY atraso DESC
-        LIMIT 5
-    `;
+    const resultado = dashboard
+        .filter(item => item.dias_reais > item.prazo_dias)
+        .map(item => ({
+            id_entrega: item.id_entrega,
+            atraso: item.dias_reais - item.prazo_dias
+        }))
+        .sort((a, b) => b.atraso - a.atraso)
+        .slice(0, 5);
 
-    db.query(sql, (err, result) => {
-
-        if (err) {
-            return res.status(500).json(err);
-        }
-
-        res.json(result);
-    });
+    res.json(resultado);
 });
 
-
 // =====================================
-// KPI'S
+// KPIs
 // =====================================
 
 app.get("/api/kpis", (req, res) => {
 
-    const sql = `
-        SELECT
-            COUNT(*) AS total_entregas,
-            SUM(
-                CASE
-                    WHEN dias_reais > prazo_dias THEN 1
-                    ELSE 0
-                END
-            ) AS atrasadas
-        FROM dashboard
-    `;
+    const totalEntregas = dashboard.length;
 
-    db.query(sql, (err, result) => {
+    const entregasAtrasadas = dashboard.filter(
+        item => item.dias_reais > item.prazo_dias
+    ).length;
 
-        if (err) {
-            return res.status(500).json(err);
+    const taxaAtraso =
+        ((entregasAtrasadas / totalEntregas) * 100).toFixed(0);
+
+    const contagemTransportadoras = {};
+
+    dashboard.forEach(item => {
+
+        if (item.dias_reais > item.prazo_dias) {
+
+            contagemTransportadoras[item.transportadora] =
+                (contagemTransportadoras[item.transportadora] || 0) + 1;
         }
-
-        res.json(result[0]);
     });
+
+    let maisAtrasos = "";
+    let maiorValor = 0;
+
+    for (const transportadora in contagemTransportadoras) {
+
+        if (contagemTransportadoras[transportadora] > maiorValor) {
+
+            maiorValor = contagemTransportadoras[transportadora];
+            maisAtrasos = transportadora;
+        }
+    }
+
+    res.json({
+        totalEntregas,
+        entregasAtrasadas,
+        taxaAtraso,
+        maisAtrasos
+    });
+});
+
+// =====================================
+// TABELA
+// =====================================
+
+app.get("/api/tabela", (req, res) => {
+
+    const resultado = dashboard
+        .map(item => {
+
+            const atraso =
+                item.dias_reais - item.prazo_dias;
+
+            let prioridade = "🟢 Nenhuma";
+            let classe = "";
+            let linha = "";
+
+            if (atraso >= 7) {
+                prioridade = "🔴 Alta";
+                classe = "prioridade-alta";
+                linha = "linha-alta";
+            }
+            else if (atraso >= 4) {
+                prioridade = "🟠 Média-Alta";
+                classe = "prioridade-media-alta";
+                linha = "linha-media-alta";
+            }
+            else if (atraso >= 1) {
+                prioridade = "🟡 Média";
+                classe = "prioridade-media";
+                linha = "linha-media";
+            }
+            else {
+                classe = "prioridade-baixa";
+            }
+
+            return {
+                id_entrega: item.id_entrega,
+                transportadora: item.transportadora,
+                regiao: item.regiao,
+                atraso,
+                prioridade,
+                classe,
+                linha
+            };
+        })
+        .sort((a, b) => b.atraso - a.atraso);
+
+    res.json(resultado);
 });
 
 app.listen(3000, () => {
     console.log("Servidor rodando na porta 3000");
-});
+})

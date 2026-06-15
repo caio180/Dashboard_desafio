@@ -24,6 +24,13 @@ fetch("http://localhost:3000/api/regioes")
                     "rgb(153,102,255)"
                 ]
             }]
+        },
+        options: {
+            plugins: {
+                legend: {
+                    position: "bottom"
+                }
+            }
         }
     });
 });
