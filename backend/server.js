@@ -172,4 +172,5 @@ app.get("/api/tabela", (req, res) => {
 
 app.listen(3000, () => {
     console.log("Servidor rodando na porta 3000");
-})
+    console.log("http://127.0.0.1:5500/Dashboard_desafio/frontend/");
+});
