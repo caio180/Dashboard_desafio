@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require("cors");
+const path = require("path");
 
 const app = express();
 
@@ -170,7 +171,9 @@ app.get("/api/tabela", (req, res) => {
     res.json(resultado);
 });
 
+app.use(express.static(path.join(__dirname, "../frontend")));
+
 app.listen(3000, () => {
     console.log("Servidor rodando na porta 3000");
-    console.log("http://127.0.0.1:5500/Dashboard_desafio/frontend/");
+    console.log("http://localhost:3000/");
 });
