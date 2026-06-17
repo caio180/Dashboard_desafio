@@ -33,4 +33,7 @@ fetch("http://localhost:3000/api/regioes")
             }
         }
     });
+})
+.catch(err => {
+    console.error("Erro ao carregar chart2:", err);
 });

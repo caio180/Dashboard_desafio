@@ -36,4 +36,7 @@ fetch("http://localhost:3000/api/prioridade")
             indexAxis: "y"
         }
     });
+})
+.catch(err => {
+    console.error("Erro ao carregar chart3:", err);
 });

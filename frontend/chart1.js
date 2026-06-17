@@ -33,4 +33,7 @@ fetch("http://localhost:3000/api/atrasos-transportadora")
             }
         }
     });
+})
+.catch(err => {
+    console.error("Erro ao carregar chart1:", err);
 });
