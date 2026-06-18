@@ -19,7 +19,7 @@ O objetivo do projeto é otimizar o controle logístico e demonstrar, na prátic
 * Gráficos analíticos (rosca/doughnut e barras);
 * Organização de dados por status operacional;
 * Integração com backend em Node.js;
-* Comunicação com banco de dados MySQL;
+* Consumo de dados via API REST;
 * Interface simples e responsiva para análise rápida.
 
 ---
@@ -38,10 +38,6 @@ O objetivo do projeto é otimizar o controle logístico e demonstrar, na prátic
 * Node.js
 * Express.js
 
-### Banco de Dados
-
-* MySQL
-
 ---
 
 ## Estrutura do Projeto
@@ -50,52 +46,21 @@ O objetivo do projeto é otimizar o controle logístico e demonstrar, na prátic
 LogiTrack/
 │
 ├── backend/
-│   ├── controllers/
-│   │    └── entregasController.js
-│   ├── database/
-│   │    ├── connection.js
-│   │    └── logitrack.sql
-│   ├── models/
-│   │    └── entregasModel.js
-│   ├── routes/
-│   │    └── entregasRoutes.js
-│   ├── .env
-│   ├── .env.example
 │   ├── .gitignore
-│   ├── package.json
 │   ├── package-lock.json
+│   ├── package.json
 │   └── server.js
 │
 ├── frontend/
+│   ├── chart1.js
+│   ├── chart2.js
+│   ├── chart3.js
 │   ├── index.html
+│   ├── kpis.js
 │   ├── style.css
-│   ├── script.js
-│   └── charts.js
-│
-├── img/
-│   └── (assets do dashboard)
+│   └── tabela.js
 │
 └── README.md
-```
-
----
-
-## Banco de Dados
-
-O sistema utiliza MySQL para armazenar informações das entregas e seus status operacionais.
-
-### Exemplo de tabela
-
-```sql
-CREATE TABLE entregas (
-    id_entrega INT AUTO_INCREMENT PRIMARY KEY,
-    transportadora VARCHAR(100) NOT NULL,
-    regiao VARCHAR(50) NOT NULL,
-    atraso INT DEFAULT 0,
-    prioridade VARCHAR(20) NOT NULL,
-    status VARCHAR(50),
-    data_entrega DATE
-);
 ```
 
 ---
@@ -120,28 +85,13 @@ cd LogiTrack
 npm install
 ```
 
-### 4. Configure o banco de dados MySQL
-
-```sql
-CREATE DATABASE IF NOT EXISTS logitrack;
-```
-
-### 5. Configure o arquivo `.env`
-
-```env
-PORT=3000
-DB_HOST=localhost
-DB_USER=root
-DB_PASSWORD=sua_senha
-DB_NAME=logitrack
-DB_PORT=3306
-```
-
-### 6. Inicie o servidor
+### 4. Inicie o servidor
 
 ```bash
 node server.js
 ```
+
+O servidor será iniciado na porta configurada e disponibilizará os dados para o dashboard através da API.
 
 ---
 
@@ -162,6 +112,7 @@ node server.js
 O LogiTrack foi desenvolvido com o propósito de demonstrar a aplicação prática de tecnologia na resolução de problemas reais de logística, especialmente relacionados ao controle de entregas, análise de atrasos e eficiência operacional. O sistema simula um ambiente corporativo onde dados são utilizados para otimizar decisões e melhorar o desempenho de transporte e distribuição.
 
 ---
+
 ## Desenvolvedores
 
 **Murilo Ferreira Stresser**
