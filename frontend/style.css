@@ -89,12 +89,20 @@ header {
     gap: 25px;
 }
 
+.card:nth-child(1){
+    border-left: 6px solid rgb(0, 255, 0);
+}
+
 .card:nth-child(2){
     border-left: 6px solid red;
 }
 
 .card:nth-child(3){
     border-left: 6px solid yellow;
+}
+
+.card:nth-child(4){
+    border-left: 6px solid silver;
 }
 
 .grafico1{
@@ -248,6 +256,14 @@ footer {
 
 footer h3 {
     margin: 10px;
+}
+
+footer p strong {
+    color: orange;
+}
+
+footer h3 strong {
+    color: orange;
 }
 
 footer h3:hover span {
